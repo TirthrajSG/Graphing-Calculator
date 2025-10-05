@@ -26,7 +26,7 @@ It allows you to evaluate a wide range of mathematical expressions—including c
 2. **Set the Domain**: By default, the domain is set to `[-10, 10]`. Change it from the top-right corner if needed.
 3. **Evaluate**: After inserting the expression, click the `Eval` button to simplify it. The result will appear in the label above the graph.
 4. **Plot**: If the expression evaluates without errors, click the `Plot` button to visualize it.
-5. **Help**: Click the `Help` button for guidance and interactive examples.
+5. **Help**: Click the `Help` button for guidance on using in-built buttons and interactive examples.
 
 ---
 
