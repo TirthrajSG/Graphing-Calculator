@@ -26,7 +26,7 @@ class App:
 
         # Themes
         self.themes_func()
-        self.theme = self.theme10
+        self.theme = self.themes["Sepia Tone"]
 
         self.master.configure(bg=self.theme["bg"])
         self.master.rowconfigure(0, weight=1)
@@ -134,117 +134,106 @@ class App:
         self.add_buttons()
     
     def themes_func(self):
-        self.theme1 = {
-            "bg": "#282a36",
-            "fg": "#f8f8f2",
-            "entry_bg": "#282a36",
-            "btn_bg": "#44475a",
-            "btn_active_bg": "#6272a4",
-            "plot_bg": "#282a36",
-            "accent_color": "#8be9fd"
-        }
-        self.theme2 = {
-            "bg": "#121212",          # Very dark background (near black)
-            "fg": "#EAEAEA",          # Bright white text
-            "entry_bg": "#1E1E1E",    # Dark grey for entries
-            "btn_bg": "#2D2D2D",      # Lighter grey for buttons
-            "btn_active_bg": "#007ACC", # Vibrant blue for active/hover
-            "plot_bg": "#1E1E1E",     # Plot background
-            "accent_color": "#00BFFF" # Deep sky blue for plots/accents
-        }
-        self.theme3 = {
-            "bg": "#002b36",
-            "fg": "#839496",
-            "entry_bg": "#073642",
-            "btn_bg": "#586e75",
-            "btn_active_bg": "#657b83",
-            "plot_bg": "#073642",
-            "accent_color": "#268bd2"
-        }
-        self.theme4 = {
-            "bg": "#2D2A2E",
-            "fg": "#FCFCFA",
-            "entry_bg": "#383539",
-            "btn_bg": "#4D4A4F",
-            "btn_active_bg": "#FF6188",
-            "plot_bg": "#2D2A2E",
-            "accent_color": "#A9DC76"
-        }
-        self.theme5 = {
-            "bg": "#282828",
-            "fg": "#ebdbb2",
-            "entry_bg": "#3c3836",
-            "btn_bg": "#504945",
-            "btn_active_bg": "#665c54",
-            "plot_bg": "#3c3836",
-            "accent_color": "#fabd2f"
-        }
-        self.theme6 = {
-            "bg": "#0F1C2E",
-            "fg": "#A6ACB9",
-            "entry_bg": "#1B2A41",
-            "btn_bg": "#324A5F",
-            "btn_active_bg": "#5C7B9A",
-            "plot_bg": "#1B2A41",
-            "accent_color": "#33A1FD"
-        }
-        self.theme7 = {
-            "bg": "#2A363B",
-            "fg": "#E8E8E8",
-            "entry_bg": "#3A464B",
-            "btn_bg": "#5A666B",
-            "btn_active_bg": "#99B898",
-            "plot_bg": "#3A464B",
-            "accent_color": "#A8D5BA"
-        }
-        self.theme8 = {
-            "bg": "#fdf6e3",
-            "fg": "#657b83",
-            "entry_bg": "#eee8d5",
-            "btn_bg": "#93a1a1",
-            "btn_active_bg": "#839496",
-            "plot_bg": "#eee8d5",
-            "accent_color": "#268bd2"
-        }
-        self.theme9 = {
-            "bg": "#ffffff",
-            "fg": "#24292e",
-            "entry_bg": "#fafbfc",
-            "btn_bg": "#e1e4e8",
-            "btn_active_bg": "#d1d5da",
-            "plot_bg": "#fafbfc",
-            "accent_color": "#0366d6"
-        }
-        self.theme10 = {
-            "bg": "#F1E9DA",
-            "fg": "#5E4A33",
-            "entry_bg": "#E6DBCB",
-            "btn_bg": "#B9A28B",
-            "btn_active_bg": "#9C836A",
-            "plot_bg": "#E6DBCB",
-            "accent_color": "#8A6B4A"
-        }
-        self.theme11 = {
-            "bg": "#1A1A1A",
-            "fg": "#F2F2F2",
-            "entry_bg": "#101010",
-            "btn_bg": "#4D0000",
-            "btn_active_bg": "#800000",
-            "plot_bg": "#101010",
-            "accent_color": "#FF0000"
-        }
         self.themes = {
-            "Dracula":self.theme1,
-            "Nord Dark":self.theme2,
-            "Solarized Dark":self.theme3,
-            "Monokai Pro":self.theme4,
-            "Gruvbox Dark":self.theme5,
-            "Ocean Blue":self.theme6,
-            "Matcha Green":self.theme7,
-            "Solarized Light":self.theme8,
-            "GitHub Light":self.theme9,
-            "Sepia Tone":self.theme10,
-            "Crimson Red":self.theme11,
+            "Dracula": {
+                "bg": "#282a36",
+                "fg": "#f8f8f2",
+                "entry_bg": "#282a36",
+                "btn_bg": "#44475a",
+                "btn_active_bg": "#6272a4",
+                "plot_bg": "#282a36",
+                "accent_color": "#8be9fd"
+            },
+            "Nord Dark": {
+                "bg": "#121212",
+                "fg": "#EAEAEA",
+                "entry_bg": "#1E1E1E",
+                "btn_bg": "#2D2D2D",
+                "btn_active_bg": "#007ACC",
+                "plot_bg": "#1E1E1E",
+                "accent_color": "#00BFFF"
+            },
+            "Solarized Dark": {
+                "bg": "#002b36",
+                "fg": "#839496",
+                "entry_bg": "#073642",
+                "btn_bg": "#586e75",
+                "btn_active_bg": "#657b83",
+                "plot_bg": "#073642",
+                "accent_color": "#268bd2"
+            },
+            "Monokai Pro": {
+                "bg": "#2D2A2E",
+                "fg": "#FCFCFA",
+                "entry_bg": "#383539",
+                "btn_bg": "#4D4A4F",
+                "btn_active_bg": "#FF6188",
+                "plot_bg": "#2D2A2E",
+                "accent_color": "#A9DC76"
+            },
+            "Gruvbox Dark":{
+                "bg": "#282828",
+                "fg": "#ebdbb2",
+                "entry_bg": "#3c3836",
+                "btn_bg": "#504945",
+                "btn_active_bg": "#665c54",
+                "plot_bg": "#3c3836",
+                "accent_color": "#fabd2f"
+            },
+            "Ocean Blue": {
+                "bg": "#0F1C2E",
+                "fg": "#A6ACB9",
+                "entry_bg": "#1B2A41",
+                "btn_bg": "#324A5F",
+                "btn_active_bg": "#5C7B9A",
+                "plot_bg": "#1B2A41",
+                "accent_color": "#33A1FD"
+            },
+            "Matcha Green": {
+                "bg": "#2A363B",
+                "fg": "#E8E8E8",
+                "entry_bg": "#3A464B",
+                "btn_bg": "#5A666B",
+                "btn_active_bg": "#99B898",
+                "plot_bg": "#3A464B",
+                "accent_color": "#A8D5BA"
+            },
+            "Solarized Light":{
+                "bg": "#fdf6e3",
+                "fg": "#657b83",
+                "entry_bg": "#eee8d5",
+                "btn_bg": "#93a1a1",
+                "btn_active_bg": "#839496",
+                "plot_bg": "#eee8d5",
+                "accent_color": "#268bd2"
+            },
+            "GitHub Light":{
+                "bg": "#ffffff",
+                "fg": "#24292e",
+                "entry_bg": "#fafbfc",
+                "btn_bg": "#e1e4e8",
+                "btn_active_bg": "#d1d5da",
+                "plot_bg": "#fafbfc",
+                "accent_color": "#0366d6"
+            },
+            "Sepia Tone": {
+                "bg": "#F1E9DA",
+                "fg": "#5E4A33",
+                "entry_bg": "#E6DBCB",
+                "btn_bg": "#B9A28B",
+                "btn_active_bg": "#9C836A",
+                "plot_bg": "#E6DBCB",
+                "accent_color": "#8A6B4A"
+            },
+            "Crimson Red":{
+                "bg": "#1A1A1A",
+                "fg": "#F2F2F2",
+                "entry_bg": "#101010",
+                "btn_bg": "#4D0000",
+                "btn_active_bg": "#800000",
+                "plot_bg": "#101010",
+                "accent_color": "#FF0000"
+            }
         }
 
     def add_buttons(self):
