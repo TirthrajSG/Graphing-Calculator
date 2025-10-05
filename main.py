@@ -25,6 +25,7 @@ class App:
         self.master.rowconfigure(0, weight=1)
         self.master.columnconfigure(0, weight=1)
         self.master.state('zoomed')
+        self.master.iconbitmap("imgs/icon.ico")
 
 
         self.main_frame = Frame(master)
