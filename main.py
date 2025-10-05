@@ -24,6 +24,7 @@ class App:
         self.master.geometry("1200x600")
         self.master.rowconfigure(0, weight=1)
         self.master.columnconfigure(0, weight=1)
+        self.master.state('zoomed')
 
 
         self.main_frame = Frame(master)
@@ -38,20 +39,19 @@ class App:
 
         self.btns = [
             ["x","y","e","π","(",")", "lcm()", "sign()"],
-            ["a**2","a**b","sqrt()","root()","ln()","log(a, b)","gcd()","Sum()"],
-            ["7","8","9","+","%","<--","abs()","Product()"],
-            ["4","5","6","-","&","!","ceiling()","diff()"],
+            ["a**2","a**b","sqrt()","root()","ln()","log()","gcd()","Sum()"],
+            ["7","8","9","+","%","<--","abs()","Prod()"],
+            ["4","5","6","-","&","!","ceil()","diff()"],
             ["1","2","3","*","^","nCr()","floor()","limit()"],
-            [".","0",",","/","//","nPr()","round()","integrate()"],
-            ["sin()","cos()","tan()","cosec()","sec()","cot()", "Clear", "Eval"],
-            ["asin()","acos()","atan()","acosec()","asec()","acot()", "Plot", "Help"]
+            [".","0",",","/","//","nPr()","round()","integ()"],
+            ["sin()","cos()","tan()","csc()","sec()","cot()", "Clear", "Eval"],
+            ["asin()","acos()","atan()","acsc()","asec()","acot()", "Plot", "Help"]
         ]
 
         self.entry = Entry(self.main_frame, font=("Consolas", 20))
         self.entry.bind("<Key>", self.record_history)
         self.entry.focus_set()
         self.entry.grid(row=0,column=0, columnspan = 16, stick="nsew", padx=5,pady=5)
-        self.add_placeholder(self.entry, "Expression in x and y")
 
         self.entry_a = Entry(self.main_frame,text="-10", font=("Consolas", 12), justify="center")
         self.entry_a.grid(row=0, column=16, stick="nsew", padx=5, pady=5)
@@ -77,22 +77,6 @@ class App:
 
         self.add_buttons()
 
-    def add_placeholder(self, entry, text, color="grey"):
-        def on_focus_in(event):
-            if entry.get() == text:
-                entry.delete(0, END)
-                entry.config(fg="black")
-
-        def on_focus_out(event):
-            if not entry.get():
-                entry.insert(0, text)
-                entry.config(fg=color)
-
-        entry.insert(0, text)
-        entry.config(fg=color)
-        entry.bind("<FocusIn>", on_focus_in)
-        entry.bind("<FocusOut>", on_focus_out)
-
     def add_buttons(self):
         
         for i,row in enumerate(self.btns):
@@ -103,6 +87,7 @@ class App:
                                  activebackground ="#A1A1A1",
                                  activeforeground="#000000",
                                  bd=0,
+                                 font=("Consolas", 14, "bold"),
                                  bg="#ffffff",
                                  relief="flat",
                                  command=lambda k=key: self.btn_clicked(k)
@@ -126,9 +111,6 @@ class App:
             self.entry.insert(0, last_state)
 
     def help(self):
-        import os
-        import markdown
-        from tkinterweb import HtmlFrame
 
         def insert_example(example):
             self.entry.delete(0, END)
@@ -137,7 +119,8 @@ class App:
 
         help_win = Toplevel(self.master)
         help_win.title("Help - Graphing Calculator")
-        help_win.geometry("600x600")
+        help_win.geometry("600x600+650+60")
+        help_win.resizable(False, False)
 
         # Scrollable canvas + frame
         canvas = Canvas(help_win)
@@ -169,9 +152,38 @@ class App:
         with open(md_file, "r", encoding="utf-8") as f:
             md_text = f.read()
 
+        md_text = html_content = f"""
+<html>
+<head>
+<style>
+body {{
+    font-family: Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    margin: 10px;
+}}
+h1, h2, h3, h4 {{
+    color: #1e3a8a;
+}}
+</style>
+</head>
+<body>
+{markdown.markdown(md_text)}
+</body>
+</html>
+"""
+
         # HTML frame for Markdown content (no internal scrollbar)
-        html_frame = HtmlFrame(scrollable_frame, horizontal_scrollbar="auto")
-        html_frame.pack(fill="x", padx=10, pady=10)
+        container = Frame(scrollable_frame, width=560, height=1400)
+        container.pack(padx=10, pady=10)
+        container.pack_propagate(False)
+
+        html_frame = HtmlFrame(container, messages_enabled=False)
+        html_frame.pack(fill="both", expand=True, padx=10, pady=10)
+
 
         # Remove internal scrollbar and disable internal scrolling
         try:
@@ -211,7 +223,9 @@ class App:
                 ("lcm(a,b)", "lcm(4,9)"),
                 ("gcd(a,b)", "gcd(4,9)"),
                 ("abs(x)", "abs(x)"),
-                ("sign(x)", "sign(x)"),
+                ("sign(x)", "sign(x)") 
+            ],
+            "4.5": [
                 ("ceiling(x)", "ceiling(x)"),
                 ("floor(x)", "floor(x)"),
                 ("round(x)", "round(x)")
@@ -221,16 +235,28 @@ class App:
                 ("2D function: x**2 + y**2 - 1", "x**2 + y**2 - 1")
             ]
         }
-
+        i, j = 0, 1
         for sec, items in sections.items():
-            header = Label(scrollable_frame, text=sec, font=("Consolas", 14, "bold"), anchor="w")
-            header.pack(anchor="w", pady=(10,0), padx=10)
-            for label_text, example in items:
-                btn = Button(scrollable_frame, text=label_text, font=("Consolas", 12),
-                            command=lambda ex=example: insert_example(ex))
-                btn.pack(anchor="w", padx=20, pady=2)
+            if i != 4:
+                header = Label(scrollable_frame, text=sec, font=("Consolas", 14, "bold"), anchor="w")
+                header.pack(anchor="w", pady=(10,0), padx=10)
+            if i in [1,5]: 
+                for label_text, example in items:
+                    btn = Button(scrollable_frame, text=label_text, font=("Consolas", 12),
+                                command=lambda ex=example: insert_example(ex))
+                    btn.pack(anchor="w", padx=20, pady=2)     
+            else:
+                row_frame = Frame(scrollable_frame)
+                row_frame.pack(anchor="w", padx=20, pady=2)
 
-        Label(scrollable_frame, text="\nInteractive Examples:", font=("Consolas", 14, "bold")).pack(anchor="w", padx=10, pady=(10,2))
+                for label_text, example in items:
+                    btn = Button(row_frame, text=label_text, font=("Consolas", 12),
+                                command=lambda ex=example: insert_example(ex))
+                    btn.pack(side=LEFT, padx=5)
+            i += 1
+
+
+        # Label(scrollable_frame, text="\nInteractive Examples:", font=("Consolas", 14, "bold")).pack(anchor="w", padx=10, pady=(10,2))
 
 
     def eval_expr(self):
@@ -239,6 +265,7 @@ class App:
         try:
             transformations = standard_transformations + (implicit_multiplication_application,)
             local_dict = {
+                'ceil': sp.ceiling,
                 'nPr': self.nPr,
                 'nCr':sp.binomial,
                 'e': sp.E,           # ensures 'e' is treated as the constant
@@ -248,7 +275,6 @@ class App:
                 'tan': sp.tan,
                 'cot': sp.cot,
                 'sec': sp.sec,
-                'cosec': sp.csc,
                 'csc': sp.csc,
                 'ln': sp.ln,
                 'sqrt': sp.sqrt
@@ -353,16 +379,16 @@ class App:
 
         if k == "a**2": add="**2"
         elif k == "a**b": add="**"
-        elif k == "log(a, b)": add="log(a, b)"; i=4
+        elif k == "log()": add="log(a, b)"; i=4
         elif k == "nCr()": add="nCr(n, r)"; i=4
         elif k == "nPr()": add="nPr(n, r)"; i=4
         elif k == "lcm()": add="lcm(a, b)"; i=4
         elif k == "gcd()": add="gcd(a, b)"; i=4
         elif k == "Sum()": add = "Sum(f(i), (i, a, b))"; i = 12
-        elif k == "Product()": add="Product(f(i), (i, a, b))"; i=12
+        elif k == "Prod()": add="Product(f(i), (i, a, b))"; i=12
         elif k == "diff()": add="diff(f(x), x)"; i=4
         elif k == "limit()": add = "limit(f(x), x, a)";i=7
-        elif k == "integrate()": add="integrate(f(x), (x, a, b))"; i=12
+        elif k == "integ()": add="integrate(f(x), (x, a, b))"; i=12
 
         elif k == "<--": self.undo(); return
         elif k == "Clear": 
