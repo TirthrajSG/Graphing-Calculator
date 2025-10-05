@@ -50,5 +50,5 @@ pip install sympy numpy matplotlib Pillow tkinterweb markdown
 
 OR
 
-```bash
+``` bash
 pip install -r requirements.txt
