@@ -47,8 +47,8 @@ You can install the Python packages using `pip`:
 
 ```bash
 pip install sympy numpy matplotlib Pillow tkinterweb markdown
-
+```
 OR
-
-``` bash
+```bash
 pip install -r requirements.txt
+```
